@@ -31,7 +31,7 @@ import torch
 from .bfp_ops import float_to_bfp_blocked, unpack_bfp_args
 from torch.optim.optimizer import Optimizer
 
-class AdamW(Optimizer):
+class BFPAdamW(Optimizer):
     r"""Implements AdamW algorithm.
 
     The original Adam algorithm was proposed in `Adam: A Method for Stochastic Optimization`_.
