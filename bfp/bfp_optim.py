@@ -75,7 +75,7 @@ class BFPAdamW(Optimizer):
                 'sparsity_num_format': 'bfp',
                 'rounding_mode': 'stoc',
                 'epsilon': 1e-8,
-                'mant_bits': 7,
+                'mant_bits': 3,
                 'bfp_block_size': 64,
                 'weight_mant_bits': 15,
                 'in_sparsity': False,
@@ -157,11 +157,11 @@ class BFPAdamW(Optimizer):
                 step_size = group['lr'] / bias_correction1
 
                 if self.bfp_args['num_format'] == 'fp32':
-                    print(';;;;;;;;;;;;;;;;;;;;;;;;;;;;;;optimizer fp32')
+                    #print(';;;;;;;;;;;;;;;;;;;;;;;;;;;;;;optimizer fp32')
                     p.addcdiv_(exp_avg, denom, value=-step_size)
                     updated_value = p
                 elif self.bfp_args['num_format'] == 'bfp':
-                    print(';;;;;;;;;;;;;;;;;;;;;;;;;;;;;;optimizer bfp')
+                    #print(';;;;;;;;;;;;;;;;;;;;;;;;;;;;;;optimizer bfp')
                     updated_value = float_to_bfp_blocked(p.addcdiv_(exp_avg, denom, value=-step_size), sgd_update=True, **self.bfp_args)
 
                 p.copy_(updated_value)

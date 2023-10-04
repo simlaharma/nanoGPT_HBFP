@@ -79,8 +79,7 @@ def _float_to_bfp(t, mant_bits, epsilon, rounding_mode, device, exp_given=None):
     """
     Convert float tensor t to bfp
     """
-    if mant_bits==15:
-        print(f'...................  {mant_bits}  .................... float to bfp')
+    #print(f'...................  {mant_bits}  .................... float to bfp')
     exp = get_exponent(t, epsilon)
 
     #The interval between two consecutive numbers with that exponent value
@@ -171,7 +170,7 @@ def float_to_bfp_blocked(t, mant_bits, epsilon, rounding_mode, device, bfp_block
     for i in range(int(len(intervals)/2)):
         if (mixed_layer==1) or (int(intervals[int(2*i)])<int(tracking.current_epoch)<=int(intervals[int(2*i)+1])):
             #print(f'................................... {tracking.current_epoch}')
-            mant_bits = 7
+            mant_bits = 5
 
     if in_sparsity == True and identifier == 'in':
         sparsity = True
@@ -300,18 +299,18 @@ def unpack_bfp_args(kwargs):
                 ('sparsity_num_format', 'bfp'),
                 ('rounding_mode', 'stoc'),
                 ('epsilon', 1e-8),
-                ('mant_bits', 7),
+                ('mant_bits', 3),
                 ('bfp_block_size', 64),
                 ('weight_mant_bits', 15),
                 ('in_sparsity', False),
-                ('w_sparsity', True),
+                ('w_sparsity', False),
                 ('grad_sparsity', False),
                 ('N', [2]),
                 ('M', [4]),
                 ('rearrange', False),
                 ('sparsity_frac', 0),
                 ('device', 'cuda'),
-                ('mixed_precision', '298,300'),
+                ('mixed_precision', '99000,100000'),
                 ('mixed_layer', 0)]
 
     for arg, default in bfp_argn:
