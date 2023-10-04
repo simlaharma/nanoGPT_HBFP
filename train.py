@@ -262,6 +262,8 @@ while True:
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
 
+    print('*********** still training 1')
+
     # evaluate the loss on train/val sets and write checkpoints
     if iter_num % eval_interval == 0 and master_process:
         losses = estimate_loss()
@@ -290,6 +292,8 @@ while True:
     if iter_num == 0 and eval_only:
         break
 
+    print('*********** still training 2')
+
     # forward backward update, with optional gradient accumulation to simulate larger batch size
     # and using the GradScaler if data type is float16
     for micro_step in range(gradient_accumulation_steps):
@@ -306,13 +310,23 @@ while True:
         X, Y = get_batch('train')
         # backward pass, with gradient scaling if training in fp16
         scaler.scale(loss).backward()
+    
+    print('*********** still training 3')
+    
     # clip the gradient
     if grad_clip != 0.0:
         scaler.unscale_(optimizer)
         torch.nn.utils.clip_grad_norm_(model.parameters(), grad_clip)
     # step the optimizer and scaler if training in fp16
+    
+    print('*********** still training 4')
+
     scaler.step(optimizer)
+    print('*********** still training 5')
+
     scaler.update()
+    print('*********** still training 6')
+
     # flush the gradients as soon as we can, no need for this memory anymore
     optimizer.zero_grad(set_to_none=True)
 
