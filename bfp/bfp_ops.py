@@ -55,7 +55,8 @@ def round_tensor(t, mode, device):
         if device == "cpu":
             sampled = torch.FloatTensor(t.size(), device = device).uniform_(-0.5, 0.5)
         else:
-            sampled = torch.cuda.FloatTensor(t.size()).uniform_(-0.5, 0.5)
+            #sampled = torch.cuda.FloatTensor(t.size()).uniform_(-0.5, 0.5)
+            sampled = (-1) * torch.rand(t.size()) + 0.5
         return sampled.add_(t).round()
     elif mode == rounding_modes.DETERM:
         return t.round()
