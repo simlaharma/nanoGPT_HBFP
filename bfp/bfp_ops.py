@@ -79,7 +79,8 @@ def _float_to_bfp(t, mant_bits, epsilon, rounding_mode, device, exp_given=None):
     """
     Convert float tensor t to bfp
     """
-    print(f'...................  {mant_bits}  .................... float to bfp')
+    if mant_bits==15:
+        print(f'...................  {mant_bits}  .................... float to bfp')
     exp = get_exponent(t, epsilon)
 
     #The interval between two consecutive numbers with that exponent value
@@ -166,7 +167,7 @@ def float_to_bfp_blocked(t, mant_bits, epsilon, rounding_mode, device, bfp_block
     assert (((sparsity_num_format == 'bfp') and (bfp_block_size > 0)) or (sparsity_num_format == 'fp32'))
 
     intervals=mixed_precision.split(',')
-    print(f'==================== {tracking.current_epoch} and {mixed_precision}')
+    #print(f'==================== {tracking.current_epoch} and {mixed_precision}')
     for i in range(int(len(intervals)/2)):
         if (mixed_layer==1) or (int(intervals[int(2*i)])<int(tracking.current_epoch)<=int(intervals[int(2*i)+1])):
             #print(f'................................... {tracking.current_epoch}')
