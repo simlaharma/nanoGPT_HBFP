@@ -28,6 +28,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import torch
+import math
 from .bfp_ops import float_to_bfp_blocked, unpack_bfp_args
 from torch.optim.optimizer import Optimizer
 
@@ -86,10 +87,10 @@ class BFPAdamW(Optimizer):
                 'sparsity_frac': 0,
                 'device': 'cuda'}
 
-        super(AdamW, self).__init__(params, defaults)
+        super(BFPAdamW, self).__init__(params, defaults)
 
     def __setstate__(self, state):
-        super(AdamW, self).__setstate__(state)
+        super(BFPAdamW, self).__setstate__(state)
         for group in self.param_groups:
             group.setdefault('amsgrad', False)
 
