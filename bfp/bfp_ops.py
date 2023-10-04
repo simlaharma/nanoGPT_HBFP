@@ -333,18 +333,18 @@ def F_linear_bfp(**kwargs):
     else:
         return F.linear
 
-def torch_matmul_bfp(**kwargs):
+def torch_matmul_bfp(mat1, mat2,**kwargs):
     """
     bfp linear function
 
     To be used in the model where F.linear is called
     """
     bfp_args = unpack_bfp_args(kwargs)
-    if bfp_args['num_format'] == 'bfp':
-        ##print('in if get op')
-        return _get_bfp_op(torch.matmul, 'bmm', bfp_args)
+    if bfp_args["num_format"] == "bfp":
+        op = _get_bfp_op(torch.matmul, "bmm", bfp_args)
     else:
-        return torch.matmul
+        op = torch.bmm
+    return op(mat1, mat2)
 
 
 '''
